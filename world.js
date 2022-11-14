@@ -8,8 +8,7 @@ window.onload = function () {
     function searchCountry () {
         //console.log('button clicked');
         var lookupVal = document.querySelector('#country').value;
-        //var cityVal = document.querySelector('#country').value;
-        fetch('http://localhost/info2180-lab5/world.php?query='+lookupVal)
+        fetch('http://localhost/info2180-lab5/world.php?country='+lookupVal+'&lookup=cities')
             .then(response => response.text())
             .then(data => {
                 let result = document.querySelector('#result');

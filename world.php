@@ -5,17 +5,20 @@ $password = 'password123';
 $dbname = 'world';
 
 $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-$country = $_GET['query'];
+$country = htmlspecialchars($_GET['country']);
+$url_segments = parse_url($_SERVER['HTTP_REFERER']);
+parse_str($url_segments['query'], $params);
 
 if (empty($country)) {
   $stmt = $conn->query("SELECT * FROM countries");
   $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   show($results);
-} elseif (!empty($country) /*&& smn about country here */) {
+} elseif (!empty($country)) {
   $stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
   $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   show($results);
-} else /*&& smn about city here */ {
+  //checks if query param has more than one parameter; (in this case) cities would be the next param
+} elseif (isset($_GET['country']) && count($_GET) > 1 && $params == ['lookup']) {
   $stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
   $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   showCity($results);
@@ -25,7 +28,7 @@ if (empty($country)) {
 
 
 <?php 
-  function show($country) {
+  function show($results) {
     echo "<table>"; 
     echo "<thead>";
       echo "<tr>";
@@ -48,7 +51,7 @@ if (empty($country)) {
     echo "</table>";
   }
 
-  function showCity($city) {
+  function showCity($results) {
     echo "<table>"; 
     echo "<thead>";
       echo "<tr>";
