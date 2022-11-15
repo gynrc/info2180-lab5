@@ -11,17 +11,17 @@ $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $p
 $country = htmlspecialchars($_GET['country']);
 $url_segments = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
 parse_str($url_segments, $params);
-$cities = $params['lookup']; // spare me pls ;( I keep getting an error for this line but it works!!
+$lookup = $params['lookup'];
 
 if (empty($country)) {
   $stmt = $conn->query("SELECT * FROM countries");
   $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   show($results);
-} elseif (!empty($country) && count($_GET) == 1 ) {
+} elseif (!empty($country) && $lookup == "countries" ) {
   $stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
   $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   show($results);
-} elseif (isset($_GET['country']) && count($_GET) > 1 && $cities == "cities") {
+} elseif (isset($_GET['country']) && $lookup == "cities") {
   $stmt = $conn->query("SELECT cities.name, cities.district, cities.population FROM countries join cities on cities.country_code = countries.code WHERE countries.name LIKE '%$country%'");
   $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
   showCity($results);
