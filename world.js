@@ -3,10 +3,21 @@ window.onload = function () {
     var cityBtn = document.querySelector('#city');
 
     lookupBtn.addEventListener('click', searchCountry);
-    cityBtn.addEventListener('click', searchCountry);
+    cityBtn.addEventListener('click', searchCity);
 
     function searchCountry () {
         //console.log('button clicked');
+        var lookupVal = document.querySelector('#country').value;
+        fetch('http://localhost/info2180-lab5/world.php?country='+lookupVal)
+            .then(response => response.text())
+            .then(data => {
+                let result = document.querySelector('#result');
+                result.innerHTML = data;
+            })
+            .catch(error => console.log(error));
+    }
+
+    function searchCity() {
         var lookupVal = document.querySelector('#country').value;
         fetch('http://localhost/info2180-lab5/world.php?country='+lookupVal+'&lookup=cities')
             .then(response => response.text())
@@ -16,5 +27,6 @@ window.onload = function () {
             })
             .catch(error => console.log(error));
     }
+
 
 }

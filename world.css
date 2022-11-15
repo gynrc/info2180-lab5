@@ -55,3 +55,22 @@ button {
     align-items: center;
     margin-top: 60px;
 }
+
+table {
+    margin-top: 80px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+td, th {
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: aliceblue;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
